@@ -28,10 +28,17 @@ app.use(express.json());
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 app.use(morgan("common"));
-app.use(cors());
+app.use(cors({
+  origin: ["http://localhost:5173", "http://localhost:3000"],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
 
 // Serve static files for images
 app.use('/assets', express.static(path.join(__dirname, 'public/assets')));
+app.get("/", (req, res) => {
+  res.send("Facebook Social Ecosystem Backend is Running 🚀");
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
